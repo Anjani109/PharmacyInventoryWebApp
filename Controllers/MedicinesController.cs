@@ -21,8 +21,17 @@ namespace PharmacyInventoryWebApp.Controllers
         // GET: Medicines
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Medicines.ToListAsync());
+            try
+            {
+                var medicines = await _context.Medicines.ToListAsync();
+                return View(medicines);
+            }
+            catch (Exception ex)
+            {
+                return Content("ERROR: " + ex.Message);
+            }
         }
+
 
         // GET: Medicines/Details/5
         public async Task<IActionResult> Details(int? id)

@@ -8,6 +8,7 @@ namespace PharmacyInventoryWebApp.Models
 
     public class Medicine
     {
+        [Key]
         public int MedicineId { get; set; }
 
         [Required]
