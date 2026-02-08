@@ -1,24 +1,66 @@
-﻿@model PharmacyInventoryWebApp.Models.ReportViewModel
+﻿@model PharmacyInventoryWebApp.Models.ReportsViewModel
 
-<h2>Reports</h2>
+<h2>Reports Dashboard</h2>
 
-<p><strong>Total Medicines:</strong> @Model.TotalMedicines</p>
-<p><strong>Active Medicines:</strong> @Model.ActiveMedicines</p>
+<div class="row">
+    <div class="col-md-4">
+        <div class="card p-3">
+            <h5>Total Medicines</h5>
+            <h2>@Model.TotalMedicines</h2>
+        </div>
+    </div>
 
-<table class="table table-bordered mt-3">
-    <thead class="table-dark">
-        <tr>
-            <th>Category</th>
-            <th>Count</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.Categories)
-        {
-            <tr>
-                <td>@item.Category</td>
-                <td>@item.Count</td>
-            </tr>
+    <div class="col-md-4">
+        <div class="card p-3">
+            <h5>Active Medicines</h5>
+            <h2>@Model.ActiveMedicines</h2>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card p-3">
+            <h5>Inactive Medicines</h5>
+            <h2>@Model.InactiveMedicines</h2>
+        </div>
+    </div>
+</div>
+
+<hr />
+
+<h4>Medicines by Category</h4>
+
+<canvas id="categoryChart" height="120"></canvas>
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        const labels = @Html.Raw(
+                    Newtonsoft.Json.JsonConvert.SerializeObject(
+                            Model.Categories.Select(c => c.Category)
+                    )
+            );
+
+    const data = @Html.Raw(
+                Newtonsoft.Json.JsonConvert.SerializeObject(
+                        Model.Categories.Select(c => c.Count)
+                )
+        );
+
+    new Chart(document.getElementById('categoryChart'), {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Medicines',
+                data: data
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { display: false }
+            }
         }
-    </tbody>
-</table>
+    });
+</script>
+}

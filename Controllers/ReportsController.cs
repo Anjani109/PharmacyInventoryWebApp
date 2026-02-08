@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PharmacyInventoryWebApp.Models;
-using System.Linq;
 
 public class ReportsController : Controller
 {
@@ -13,19 +12,24 @@ public class ReportsController : Controller
 
     public IActionResult Index()
     {
-        var report = new ReportViewModel
+        var medicines = _context.Medicines.ToList();
+
+        var model = new ReportsViewModel
         {
-            TotalMedicines = _context.Medicines.Count(),
-            ActiveMedicines = _context.Medicines.Count(m => m.IsActive),
-            Categories = _context.Medicines
+            TotalMedicines = medicines.Count,
+            ActiveMedicines = medicines.Count(m => m.IsActive),
+            InactiveMedicines = medicines.Count(m => !m.IsActive),
+
+            Categories = medicines
                 .GroupBy(m => m.Category)
                 .Select(g => new CategoryReport
                 {
                     Category = g.Key,
                     Count = g.Count()
-                }).ToList()
+                })
+                .ToList()
         };
 
-        return View(report);
+        return View(model);
     }
 }

@@ -1,17 +1,17 @@
-﻿using System.Collections.Generic;
-
-namespace PharmacyInventoryWebApp.Models
+﻿namespace PharmacyInventoryWebApp.Models
 {
-    public class ReportViewModel
+    public class CategoryReport
+    {
+        public string Category { get; set; } = string.Empty;
+        public int Count { get; set; }
+    }
+
+    public class ReportsViewModel
     {
         public int TotalMedicines { get; set; }
         public int ActiveMedicines { get; set; }
-        public List<CategoryReport> Categories { get; set; }
-    }
+        public int InactiveMedicines { get; set; }
 
-    public class CategoryReport
-    {
-        public string Category { get; set; }
-        public int Count { get; set; }
+        public List<CategoryReport> Categories { get; set; } = new();
     }
 }
