@@ -21,12 +21,16 @@ namespace PharmacyInventoryWebApp.Models
         [StringLength(50)]
         public string Category { get; set; } = string.Empty;
 
+
+        [Required(ErrorMessage = "Unit price is required")]
         [Column(TypeName = "decimal(10,2)")]
-        [Range(0.01, 100000)]
+        [Range(0.01, 100000, ErrorMessage = "Price must be greater than 0")]
         public decimal UnitPrice { get; set; }
 
         public bool IsActive { get; set; } = true;
 
+        [Required]
+        [DataType(DataType.Date)]
         public DateTime CreatedDate { get; set; }
     }
 }
