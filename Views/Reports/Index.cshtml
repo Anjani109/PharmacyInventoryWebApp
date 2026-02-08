@@ -1,0 +1,24 @@
+﻿@model PharmacyInventoryWebApp.Models.ReportViewModel
+
+<h2>Reports</h2>
+
+<p><strong>Total Medicines:</strong> @Model.TotalMedicines</p>
+<p><strong>Active Medicines:</strong> @Model.ActiveMedicines</p>
+
+<table class="table table-bordered mt-3">
+    <thead class="table-dark">
+        <tr>
+            <th>Category</th>
+            <th>Count</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Categories)
+        {
+            <tr>
+                <td>@item.Category</td>
+                <td>@item.Count</td>
+            </tr>
+        }
+    </tbody>
+</table>
