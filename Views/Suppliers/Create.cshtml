@@ -22,11 +22,26 @@
                 <input asp-for="ContactPerson" class="form-control" />
                 <span asp-validation-for="ContactPerson" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Phone" class="control-label"></label>
-                <input asp-for="Phone" class="form-control" />
+            <div class="mb-3">
+                <label class="form-label">Phone Number</label>
+
+                <div class="input-group">
+                    <select asp-for="CountryCode" class="form-select" style="max-width:100px">
+                        <option value="+91">🇮🇳 +91</option>
+                        <option value="+1">🇺🇸 +1</option>
+                        <option value="+44">🇬🇧 +44</option>
+                        <option value="+61">🇦🇺 +61</option>
+                    </select>
+
+                    <input asp-for="Phone"
+                           class="form-control"
+                           placeholder="9876543210"
+                           inputmode="tel" />
+                </div>
+
                 <span asp-validation-for="Phone" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="Email" class="control-label"></label>
                 <input asp-for="Email" class="form-control" />
