@@ -22,7 +22,6 @@ namespace PharmacyInventoryWebApp.Models
         [EmailAddress(ErrorMessage = "Invalid email format")]
         public string Email { get; set; } = string.Empty;
         [StringLength(200)]
-        public string Address { get; set; } = string.Empty;
 
         public bool IsActive { get; set; } = true;
 
