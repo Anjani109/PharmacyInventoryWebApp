@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using PharmacyInventoryWebApp.Models;
 
 namespace PharmacyInventoryWebApp.Models
 {
@@ -13,4 +12,3 @@ namespace PharmacyInventoryWebApp.Models
         public DbSet<Medicine> Medicines { get; set; }
     }
 }
-

@@ -1,9 +1,12 @@
-﻿<!DOCTYPE html>
+﻿@{
+    var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
+}
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <title>@ViewData["Title"] - Pharmacy Inventory</title>
-
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <!-- Bootstrap CSS -->
@@ -16,16 +19,20 @@
         }
 
         .sidebar {
-            height: 100vh;
+            min-height: 100vh;
         }
 
-        .sidebar .nav-link {
-            color: #ffffff;
-        }
+            .sidebar .nav-link {
+                color: #ffffff;
+            }
 
-        .sidebar .nav-link:hover {
-            background-color: #495057;
-        }
+                .sidebar .nav-link:hover {
+                    background-color: #495057;
+                }
+
+                .sidebar .nav-link.active {
+                    background-color: #0d6efd;
+                }
     </style>
 </head>
 
@@ -34,8 +41,7 @@
         <div class="row">
 
             <!-- SIDEBAR -->
-            <nav id="sidebarMenu"
-                 class="col-md-3 col-lg-2 d-md-block bg-dark sidebar collapse">
+            <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-dark sidebar collapse">
                 <div class="position-sticky pt-3">
 
                     <h5 class="text-white text-center mb-4">
@@ -45,28 +51,28 @@
                     <ul class="nav flex-column">
 
                         <li class="nav-item">
-                            <a class="nav-link"
+                            <a class="nav-link @(currentController == "Medicines" ? "active" : "")"
                                asp-controller="Medicines"
                                asp-action="Index">
-                              
+                                Medicines
                             </a>
                         </li>
 
                         <li class="nav-item">
                             <a class="nav-link disabled">
-                                
+                                Reports
                             </a>
                         </li>
 
                         <li class="nav-item">
                             <a class="nav-link disabled">
-                               
+                                Suppliers
                             </a>
                         </li>
 
                         <li class="nav-item">
                             <a class="nav-link disabled">
-                                
+                                Settings
                             </a>
                         </li>
 
@@ -101,5 +107,7 @@
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    @RenderSection("Scripts", required: false)
 </body>
 </html>

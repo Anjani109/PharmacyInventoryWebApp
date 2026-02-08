@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PharmacyInventoryWebApp.Models;
 
@@ -21,32 +16,21 @@ namespace PharmacyInventoryWebApp.Controllers
         // GET: Medicines
         public async Task<IActionResult> Index()
         {
-            try
-            {
-                var medicines = await _context.Medicines.ToListAsync();
-                return View(medicines);
-            }
-            catch (Exception ex)
-            {
-                return Content("ERROR: " + ex.Message);
-            }
+            var medicines = await _context.Medicines.ToListAsync();
+            return View(medicines);
         }
-
 
         // GET: Medicines/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
-            {
                 return NotFound();
-            }
 
             var medicine = await _context.Medicines
                 .FirstOrDefaultAsync(m => m.MedicineId == id);
+
             if (medicine == null)
-            {
                 return NotFound();
-            }
 
             return View(medicine);
         }
@@ -58,14 +42,13 @@ namespace PharmacyInventoryWebApp.Controllers
         }
 
         // POST: Medicines/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("MedicineId,MedicineName,CompanyName,Category,UnitPrice,IsActive,CreatedDate")] Medicine medicine)
+        public async Task<IActionResult> Create(Medicine medicine)
         {
             if (ModelState.IsValid)
             {
+                medicine.CreatedDate = DateTime.Now;
                 _context.Add(medicine);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -77,29 +60,22 @@ namespace PharmacyInventoryWebApp.Controllers
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
-            {
                 return NotFound();
-            }
 
             var medicine = await _context.Medicines.FindAsync(id);
             if (medicine == null)
-            {
                 return NotFound();
-            }
+
             return View(medicine);
         }
 
         // POST: Medicines/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("MedicineId,MedicineName,CompanyName,Category,UnitPrice,IsActive,CreatedDate")] Medicine medicine)
+        public async Task<IActionResult> Edit(int id, Medicine medicine)
         {
             if (id != medicine.MedicineId)
-            {
                 return NotFound();
-            }
 
             if (ModelState.IsValid)
             {
@@ -111,13 +87,9 @@ namespace PharmacyInventoryWebApp.Controllers
                 catch (DbUpdateConcurrencyException)
                 {
                     if (!MedicineExists(medicine.MedicineId))
-                    {
                         return NotFound();
-                    }
                     else
-                    {
                         throw;
-                    }
                 }
                 return RedirectToAction(nameof(Index));
             }
@@ -128,16 +100,13 @@ namespace PharmacyInventoryWebApp.Controllers
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
-            {
                 return NotFound();
-            }
 
             var medicine = await _context.Medicines
                 .FirstOrDefaultAsync(m => m.MedicineId == id);
+
             if (medicine == null)
-            {
                 return NotFound();
-            }
 
             return View(medicine);
         }
@@ -151,9 +120,9 @@ namespace PharmacyInventoryWebApp.Controllers
             if (medicine != null)
             {
                 _context.Medicines.Remove(medicine);
+                await _context.SaveChangesAsync();
             }
 
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
