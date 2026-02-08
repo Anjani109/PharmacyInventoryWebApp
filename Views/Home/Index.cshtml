@@ -24,7 +24,15 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model)
+            @if (Model == null)
+        {
+            <tr>
+                <td colspan="5">No data received</td>
+            </tr>
+        }
+         else
+         {
+             @foreach (var item in Model)
             {
                 <tr>
                     <td>@item.MedicineName</td>
@@ -40,6 +48,7 @@
                         <a asp-action="Delete" asp-route-id="@item.MedicineId" class="btn btn-sm btn-danger">Delete</a>
                     </td>
                 </tr>
+            }
             }
         </tbody>
     </table>
