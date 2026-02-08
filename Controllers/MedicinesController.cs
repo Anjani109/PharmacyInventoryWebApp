@@ -46,18 +46,19 @@ namespace PharmacyInventoryWebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Medicine medicine)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                
-           
-            return View(medicine);
+                return View(medicine);   // show validation errors
             }
-            medicine.CreatedDate = DateTime.Now;
-            _context.Medicines.Add(medicine);
-            _context.SaveChanges();
-            return RedirectToAction("Index");
 
+            medicine.CreatedDate = DateTime.Now;
+
+            _context.Medicines.Add(medicine);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
         }
+
 
         // GET: Medicines/Edit/5
         public async Task<IActionResult> Edit(int? id)
