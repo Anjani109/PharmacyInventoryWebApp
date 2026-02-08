@@ -14,12 +14,15 @@ namespace PharmacyInventoryWebApp.Models
         [Required(ErrorMessage = "Person's name is required")]
         [StringLength(100)]
         public string ContactPerson { get; set; } = string.Empty;
-        [Required]
         [Phone]
+        [Required(ErrorMessage = "Phone number is required")]
+        [RegularExpression(@"^[6-9]\d{9}$", ErrorMessage = "Enter valid Indian mobile number")]
         public string Phone { get; set; } = string.Empty;
-
-        [EmailAddress]
+        [Required(ErrorMessage = "Email is required")]
+        [EmailAddress(ErrorMessage = "Invalid email format")]
         public string Email { get; set; } = string.Empty;
+        [StringLength(200)]
+        public string Address { get; set; } = string.Empty;
 
         public bool IsActive { get; set; } = true;
 
