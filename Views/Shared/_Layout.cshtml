@@ -1,15 +1,39 @@
-﻿<!DOCTYPE html>
+﻿@{
+    var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
+}
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>Pharmacy Inventory</title>
+    <title>@ViewData["Title"] - Pharmacy Inventory</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <!-- Bootstrap -->
+    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
 
-    <!-- Custom CSS -->
-    <link href="~/css/site.css" rel="stylesheet" />
+    <style>
+        body {
+            overflow-x: hidden;
+        }
+
+        .sidebar {
+            min-height: 100vh;
+        }
+
+            .sidebar .nav-link {
+                color: #ffffff;
+            }
+
+                .sidebar .nav-link:hover {
+                    background-color: #495057;
+                }
+
+                .sidebar .nav-link.active {
+                    background-color: #0d6efd;
+                }
+    </style>
 </head>
 
 <body>
@@ -24,18 +48,43 @@
         <div class="row">
 
             <!-- SIDEBAR -->
-            <nav class="sidebar">
-                <ul class="nav flex-column mt-3">
-                    <li class="nav-item">
-                        <a asp-controller="Medicines" asp-action="Index" class="nav-link">Medicines</a>
-                    </li>
-                    <li class="nav-item">
-                        <a asp-controller="Medicines" asp-action="Create" class="nav-link">Add Medicine</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link">Stock</a>
-                    </li>
-                </ul>
+            <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-dark sidebar collapse">
+                <div class="position-sticky pt-3">
+
+                    <h5 class="text-white text-center mb-4">
+                        Pharmacy Panel
+                    </h5>
+
+                    <ul class="nav flex-column">
+
+                        <li class="nav-item">
+                            <a class="nav-link @(currentController == "Medicines" ? "active" : "")"
+                               asp-controller="Medicines"
+                               asp-action="Index">
+                                Medicines
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link disabled">
+                                Reports
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link disabled">
+                                Suppliers
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link disabled">
+                                Settings
+                            </a>
+                        </li>
+
+                    </ul>
+                </div>
             </nav>
 
             <!-- MAIN CONTENT -->
@@ -48,8 +97,8 @@
 
     <!-- Scripts -->
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js"></script>
 
+    @RenderSection("Scripts", required: false)
 </body>
 </html>
 
