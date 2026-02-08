@@ -48,12 +48,15 @@ namespace PharmacyInventoryWebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                medicine.CreatedDate = DateTime.Now;
-                _context.Add(medicine);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
+                
+           
             return View(medicine);
+            }
+            medicine.CreatedDate = DateTime.Now;
+            _context.Medicines.Add(medicine);
+            _context.SaveChanges();
+            return RedirectToAction("Index");
+
         }
 
         // GET: Medicines/Edit/5
