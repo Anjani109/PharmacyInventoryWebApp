@@ -7,11 +7,14 @@ namespace PharmacyInventoryWebApp.Models
     {
         public int SupplierId { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Supplier name is required")]
+        [StringLength(100)]
         public string SupplierName { get; set; } = string.Empty;
 
+        [Required(ErrorMessage = "Person's name is required")]
+        [StringLength(100)]
         public string ContactPerson { get; set; } = string.Empty;
-
+        [Required]
         [Phone]
         public string Phone { get; set; } = string.Empty;
 
