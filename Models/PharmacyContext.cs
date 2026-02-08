@@ -10,5 +10,6 @@ namespace PharmacyInventoryWebApp.Models
         }
 
         public DbSet<Medicine> Medicines { get; set; }
+        public DbSet<Supplier> Suppliers { get; set; }
     }
 }
