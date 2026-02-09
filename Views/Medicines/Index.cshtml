@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Pharmacy Medicines";
+    var sort = Context.Request.Query["sortOrder"].ToString();
 }
 
 <div class="container mt-4">
@@ -9,30 +10,63 @@
     <!-- Page Heading -->
     <h2 class="mb-3">Pharmacy Medicines</h2>
 
-    <!-- Search + Add Button Row -->
+    <!-- Search + Sort + Add Button Row -->
     <div class="row mb-3 align-items-center">
 
-        <!-- Search Bar (LEFT) -->
-        <div class="col-md-6">
-            <form method="get" asp-action="Index" class="d-flex">
+        <!-- SEARCH + SORT (LEFT) -->
+        <div class="col-md-8">
+            <form method="get" asp-action="Index" class="d-flex gap-2">
+
+                <!-- Search -->
                 <input type="text"
                        name="searchString"
                        value="@Context.Request.Query["searchString"]"
-                       class="form-control me-2"
+                       class="form-control"
                        placeholder="Search by name, company, category..." />
 
-                <button type="submit" class="btn btn-primary me-2">
+                <!-- Sort -->
+                <select name="sortOrder"
+                        class="form-select"
+                        style="max-width: 220px;"
+                        onchange="this.form.submit()">
+
+                    <option value="">Sort by Name (A–Z)</option>
+                    <option value="name_desc"
+                            selected="@(Context.Request.Query["sortOrder"] == "name_desc")">
+                        Name (Z–A)
+                    </option>
+                    <option value="price_asc"
+                            selected="@(Context.Request.Query["sortOrder"] == "price_asc")">
+                        Price (Low → High)
+                    </option>
+                    <option value="price_desc"
+                            selected="@(Context.Request.Query["sortOrder"] == "price_desc")">
+                        Price (High → Low)
+                    </option>
+
+                </select>
+
+                <!-- Search Button -->
+                <button type="submit" class="btn btn-primary">
                     Search
                 </button>
+                <select name="status" class="form-select me-2" onchange="this.form.submit()">
+                    <option value="">All Status</option>
+                    <option value="true">Active</option>
+                    <option value="false">Inactive</option>
+                </select>
 
+
+                <!-- Clear -->
                 <a asp-action="Index" class="btn btn-secondary">
                     Clear
                 </a>
+
             </form>
         </div>
 
-        <!-- Add New Button (RIGHT) -->
-        <div class="col-md-6 text-end">
+        <!-- ADD BUTTON (RIGHT) -->
+        <div class="col-md-4 text-end">
             <a asp-action="Create" class="btn btn-primary">
                 + Add New Medicine
             </a>
@@ -47,12 +81,13 @@
                 <th>Company</th>
                 <th>Category</th>
                 <th>Price (₹)</th>
-                <th>Quantity</th>          <!-- NEW -->
-                <th>Expiry Date</th>       <!-- NEW -->
+                <th>Quantity</th>
+                <th>Expiry Date</th>
                 <th>Status</th>
                 <th style="width: 220px;">Actions</th>
             </tr>
         </thead>
+
         <tbody>
             @if (Model != null && Model.Any())
             {
@@ -63,17 +98,22 @@
                         <td>@item.CompanyName</td>
                         <td>@item.Category</td>
                         <td>@item.UnitPrice.ToString("0.00")</td>
-                        <td>@item.Quantity</td>                                   <!-- NEW -->
-                        <td>@item.ExpiryDate.ToShortDateString()</td>             <!-- NEW -->
+                        <td>@item.Quantity</td>
+                        <td>@item.ExpiryDate.ToShortDateString()</td>
                         <td class="text-center">
                             <span class="badge @(item.IsActive ? "bg-success" : "bg-secondary")">
                                 @(item.IsActive ? "Active" : "Inactive")
                             </span>
                         </td>
                         <td class="text-center">
-                            <a asp-action="Edit" asp-route-id="@item.MedicineId" class="btn btn-sm btn-warning">Edit</a>
-                            <a asp-action="Details" asp-route-id="@item.MedicineId" class="btn btn-sm btn-info">Details</a>
-                            <a asp-action="Delete" asp-route-id="@item.MedicineId" class="btn btn-sm btn-danger">Delete</a>
+                            <a asp-action="Edit" asp-route-id="@item.MedicineId"
+                               class="btn btn-sm btn-warning">Edit</a>
+
+                            <a asp-action="Details" asp-route-id="@item.MedicineId"
+                               class="btn btn-sm btn-info">Details</a>
+
+                            <a asp-action="Delete" asp-route-id="@item.MedicineId"
+                               class="btn btn-sm btn-danger">Delete</a>
                         </td>
                     </tr>
                 }
@@ -81,9 +121,11 @@
             else
             {
                 <tr>
-                    <td colspan="8" class="text-center text-muted">
-                        No medicines available.
+                    <td colspan="6" class="text-center py-4">
+                        <i class="bi bi-inbox fs-3 text-muted"></i>
+                        <p class="text-muted mt-2">No medicines found</p>
                     </td>
+
                 </tr>
             }
         </tbody>
