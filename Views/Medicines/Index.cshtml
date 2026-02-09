@@ -15,7 +15,7 @@
 
         <!-- SEARCH + SORT (LEFT) -->
         <div class="col-md-8">
-            <form method="get" asp-action="Index" class="d-flex gap-2">
+            <form method="get" asp-action="Index" class="d-flex gap-2 flex-wrap">
 
                 <!-- Search -->
                 <input type="text"
@@ -30,7 +30,7 @@
                         style="max-width: 220px;"
                         onchange="this.form.submit()">
 
-                    <option value="">Sort by Name (A–Z)</option>
+                    <option value="">Name (A–Z)</option>
                     <option value="name_desc"
                             selected="@(Context.Request.Query["sortOrder"] == "name_desc")">
                         Name (Z–A)
@@ -43,19 +43,22 @@
                             selected="@(Context.Request.Query["sortOrder"] == "price_desc")">
                         Price (High → Low)
                     </option>
+                </select>
 
+                <!-- Status Filter -->
+                <select name="status"
+                        class="form-select"
+                        style="max-width: 160px;"
+                        onchange="this.form.submit()">
+                    <option value="">All Status</option>
+                    <option value="true">Active</option>
+                    <option value="false">Inactive</option>
                 </select>
 
                 <!-- Search Button -->
                 <button type="submit" class="btn btn-primary">
                     Search
                 </button>
-                <select name="status" class="form-select me-2" onchange="this.form.submit()">
-                    <option value="">All Status</option>
-                    <option value="true">Active</option>
-                    <option value="false">Inactive</option>
-                </select>
-
 
                 <!-- Clear -->
                 <a asp-action="Index" class="btn btn-secondary">
@@ -71,10 +74,12 @@
                 + Add New Medicine
             </a>
         </div>
+
     </div>
 
     <!-- Medicines Table -->
     <table class="table table-bordered table-hover align-middle">
+
         <thead class="table-dark text-center">
             <tr>
                 <th>Name</th>
@@ -93,90 +98,110 @@
             {
                 foreach (var item in Model)
                 {
-                    <tr>
+                    <tr class="@(item.Quantity < 6 ? "table-warning" : "")">
+
                         <td>@item.MedicineName</td>
                         <td>@item.CompanyName</td>
                         <td>@item.Category</td>
                         <td>@item.UnitPrice.ToString("0.00")</td>
-                        <td>@item.Quantity</td>
+
+                        <!-- Quantity + Low Stock -->
+                        <td class="text-center">
+                            @item.Quantity
+
+                            @if (item.Quantity < 6)
+                            {
+                                <span class="badge bg-danger ms-2">
+                                    Low Stock
+                                </span>
+                            }
+                        </td>
+
                         <td>@item.ExpiryDate.ToShortDateString()</td>
+
+                        <!-- Status Badge -->
                         <td class="text-center">
                             <span class="badge @(item.IsActive ? "bg-success" : "bg-secondary")">
                                 @(item.IsActive ? "Active" : "Inactive")
                             </span>
                         </td>
+
+                        <!-- Action Buttons -->
                         <td class="text-center">
                             <a asp-action="Edit" asp-route-id="@item.MedicineId"
-                               class="btn btn-sm btn-warning">Edit</a>
+                               class="btn btn-sm btn-warning me-1">
+                                Edit
+                            </a>
 
                             <a asp-action="Details" asp-route-id="@item.MedicineId"
-                               class="btn btn-sm btn-info">Details</a>
+                               class="btn btn-sm btn-info text-white me-1">
+                                Details
+                            </a>
 
                             <a asp-action="Delete" asp-route-id="@item.MedicineId"
-                               class="btn btn-sm btn-danger">Delete</a>
+                               class="btn btn-sm btn-danger">
+                                Delete
+                            </a>
                         </td>
+
                     </tr>
                 }
             }
             else
             {
                 <tr>
-                    <td colspan="6" class="text-center py-4">
-                        <i class="bi bi-inbox fs-3 text-muted"></i>
-                        <p class="text-muted mt-2">No medicines found</p>
+                    <td colspan="8" class="text-center py-4 text-muted">
+                        No medicines found
                     </td>
-
                 </tr>
             }
         </tbody>
-        
 
     </table>
-<!-- Pagination -->
-<nav>
-    <ul class="pagination justify-content-center mt-3">
 
-        <!-- Previous -->
-        <li class="page-item @(ViewBag.CurrentPage == 1 ? "disabled" : "")">
-            <a class="page-link"
-               asp-action="Index"
-               asp-route-page="@(ViewBag.CurrentPage - 1)"
-               asp-route-searchString="@ViewBag.CurrentFilter"
-               asp-route-sortOrder="@ViewBag.SortOrder">
-                Previous
-            </a>
-        </li>
+    <!-- Pagination -->
+    <nav>
+        <ul class="pagination justify-content-center mt-3">
 
-        <!-- Page Numbers -->
-        @for (int i = 1; i <= ViewBag.TotalPages; i++)
-        {
-            <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
+            <!-- Previous -->
+            <li class="page-item @(ViewBag.CurrentPage == 1 ? "disabled" : "")">
                 <a class="page-link"
                    asp-action="Index"
-                   asp-route-page="@i"
+                   asp-route-page="@(ViewBag.CurrentPage - 1)"
                    asp-route-searchString="@ViewBag.CurrentFilter"
                    asp-route-sortOrder="@ViewBag.SortOrder">
-                    @i
+                    Previous
                 </a>
             </li>
-        }
 
-        <!-- Next -->
-        <li class="page-item @(ViewBag.CurrentPage == ViewBag.TotalPages ? "disabled" : "")">
-            <a class="page-link"
-               asp-action="Index"
-               asp-route-page="@(ViewBag.CurrentPage + 1)"
-               asp-route-searchString="@ViewBag.CurrentFilter"
-               asp-route-sortOrder="@ViewBag.SortOrder">
-                Next
-            </a>
-        </li>
+            <!-- Page Numbers -->
+            @for (int i = 1; i <= ViewBag.TotalPages; i++)
+            {
+                <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
+                    <a class="page-link"
+                       asp-action="Index"
+                       asp-route-page="@i"
+                       asp-route-searchString="@ViewBag.CurrentFilter"
+                       asp-route-sortOrder="@ViewBag.SortOrder">
+                        @i
+                    </a>
+                </li>
+            }
 
-    </ul>
-</nav>
+            <!-- Next -->
+            <li class="page-item @(ViewBag.CurrentPage == ViewBag.TotalPages ? "disabled" : "")">
+                <a class="page-link"
+                   asp-action="Index"
+                   asp-route-page="@(ViewBag.CurrentPage + 1)"
+                   asp-route-searchString="@ViewBag.CurrentFilter"
+                   asp-route-sortOrder="@ViewBag.SortOrder">
+                    Next
+                </a>
+            </li>
 
+        </ul>
+    </nav>
 
 </div>
-
 
 
