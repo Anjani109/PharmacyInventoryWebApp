@@ -44,14 +44,12 @@ public class ReportsController : Controller
 
     public IActionResult Expired()
     {
-        var today = DateTime.Today;
-
-        var expiredMedicines = _context.Medicines
-            .Where(m => m.ExpiryDate < today)
+        var medicines = _context.Medicines
             .OrderBy(m => m.ExpiryDate)
             .ToList();
 
-        return View(expiredMedicines);
+        return View(medicines);
     }
+
 
 }
