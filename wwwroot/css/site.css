@@ -1,5 +1,6 @@
 body {
     overflow-x: hidden;
+    background-color: #f8f9fa;
 }
 
 /* Sidebar */
@@ -9,10 +10,11 @@ body {
     left: 0;
     width: 250px;
     height: 100%;
-    background-color: #343a40;
     transform: translateX(-100%);
     transition: transform 0.3s ease;
     z-index: 1000;
+    min-height: 100vh;
+    background-color: #212529;
 }
 
     .sidebar.show {
@@ -46,5 +48,30 @@ body {
     .table-hover tbody tr:hover {
         background-color: #f8f9fa;
     }
+    .sidebar {
+        min-height: 100vh;
+        background-color: #212529;
+    }
 
-}
+        .sidebar .nav-link {
+            color: #ffffff;
+            padding: 12px 16px;
+            border-radius: 4px;
+            margin: 4px 8px;
+            transition: all 0.2s ease;
+        }
+
+            .sidebar .nav-link:hover {
+                background-color: #343a40;
+            }
+
+            .sidebar .nav-link.active {
+                background-color: #0d6efd;
+            }
+
+    /* Main content */
+    main {
+        background-color: #f8f9fa;
+        min-height: calc(100vh - 56px);
+    }
+    }

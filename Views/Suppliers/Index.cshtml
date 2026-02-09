@@ -4,62 +4,72 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<div class="container mt-4">
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.SupplierName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ContactPerson)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Phone)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Email)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsActive)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CreatedDate)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.SupplierName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ContactPerson)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Phone)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsActive)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreatedDate)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.SupplierId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.SupplierId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.SupplierId">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+    <!-- Page Heading -->
+    <h2 class="mb-3">Suppliers</h2>
+
+    <!-- Add New Button Row -->
+    <div class="row mb-3">
+        <div class="col text-end">
+            <a asp-action="Create" class="btn btn-primary">
+                + Add New Supplier
+            </a>
+        </div>
+    </div>
+
+    <!-- Suppliers Table -->
+    <table class="table table-bordered table-hover align-middle">
+        <thead class="table-dark text-center">
+            <tr>
+                <th>Supplier Name</th>
+                <th>Contact Person</th>
+                <th>Phone</th>
+                <th>Email</th>
+                <th>Status</th>
+                <th>Created Date</th>
+                <th style="width:220px;">Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.SupplierName</td>
+                    <td>@item.ContactPerson</td>
+                    <td>@item.Phone</td>
+                    <td>@item.Email</td>
+
+                    <!-- Status Badge -->
+                    <td class="text-center">
+                        <span class="badge @(item.IsActive ? "bg-success" : "bg-secondary")">
+                            @(item.IsActive ? "Active" : "Inactive")
+                        </span>
+                    </td>
+
+                    <td>@item.CreatedDate.ToShortDateString()</td>
+
+                    <!-- Action Buttons -->
+                    <td class="text-center">
+                        <a asp-action="Edit" asp-route-id="@item.SupplierId"
+                           class="btn btn-warning btn-sm me-1">
+                            Edit
+                        </a>
+
+                        <a asp-action="Details" asp-route-id="@item.SupplierId"
+                           class="btn btn-info btn-sm text-white me-1">
+                            Details
+                        </a>
+
+                        <a asp-action="Delete" asp-route-id="@item.SupplierId"
+                           class="btn btn-danger btn-sm">
+                            Delete
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>
