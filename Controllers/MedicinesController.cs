@@ -14,7 +14,7 @@ namespace PharmacyInventoryWebApp.Controllers
         }
 
         // GET: Medicines
-        public async Task<IActionResult> Index(string searchString)
+        public async Task<IActionResult> Index(string searchString, string sortOrder)
         {
             var medicines = from m in _context.Medicines
                             select m;
@@ -26,6 +26,14 @@ namespace PharmacyInventoryWebApp.Controllers
                     m.CompanyName.Contains(searchString) ||
                     m.Category.Contains(searchString));
             }
+            // 🔽 SORTING
+            medicines = sortOrder switch
+            {
+                "name_desc" => medicines.OrderByDescending(m => m.MedicineName),
+                "price_asc" => medicines.OrderBy(m => m.UnitPrice),
+                "price_desc" => medicines.OrderByDescending(m => m.UnitPrice),
+                _ => medicines.OrderBy(m => m.MedicineName), // default
+            };
 
             return View(await medicines.ToListAsync());
         }
