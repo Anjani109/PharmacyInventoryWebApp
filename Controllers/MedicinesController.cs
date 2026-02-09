@@ -14,7 +14,8 @@ namespace PharmacyInventoryWebApp.Controllers
         }
 
         // GET: Medicines
-        public async Task<IActionResult> Index(string searchString, string sortOrder)
+        public async Task<IActionResult> Index(string searchString, string sortOrder, int page = 1)
+
         {
             ViewBag.SortOrder = sortOrder;
             var medicines = _context.Medicines.AsQueryable();
@@ -34,6 +35,20 @@ namespace PharmacyInventoryWebApp.Controllers
                 "price_desc" => medicines.OrderByDescending(m => m.UnitPrice),
                 _ => medicines.OrderBy(m => m.MedicineName),
             };
+            int pageSize = 5;
+
+            int totalMedicines = await medicines.CountAsync();
+            int totalPages = (int)Math.Ceiling((double)totalMedicines / pageSize);
+
+            medicines = medicines
+                        .Skip((page - 1) * pageSize)
+                        .Take(pageSize);
+
+            ViewBag.CurrentPage = page;
+            ViewBag.TotalPages = totalPages;
+            ViewBag.CurrentFilter = searchString;
+            ViewBag.CurrentSort = sortOrder;
+
 
             return View(await medicines.ToListAsync());
         }

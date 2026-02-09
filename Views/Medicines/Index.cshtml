@@ -129,6 +129,24 @@
                 </tr>
             }
         </tbody>
+        <nav>
+    <ul class="pagination justify-content-center">
+        @for (int i = 1; i <= ViewBag.TotalPages; i++)
+        {
+            <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
+                <a class="page-link"
+                   href="@Url.Action("Index", new {
+                       page = i,
+                       searchString = ViewBag.CurrentFilter,
+                       sortOrder = ViewBag.CurrentSort
+                   })">
+                    @i
+                </a>
+            </li>
+        }
+    </ul>
+</nav>
+
     </table>
 
 </div>
