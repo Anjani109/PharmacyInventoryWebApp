@@ -67,6 +67,7 @@ body {
 
             .sidebar .nav-link.active {
                 background-color: #0d6efd;
+                color: #fff;
             }
 
     /* Main content */
@@ -74,4 +75,125 @@ body {
         background-color: #f8f9fa;
         min-height: calc(100vh - 56px);
     }
+    /* Dashboard Cards Hover Effect */
+    .card {
+        border-radius: 12px;
+        transition: transform 0.2s ease-in-out;
+    }
+
+        .card:hover {
+            transform: translateY(-4px);
+        }
+
+    /* Buttons consistency */
+    .btn {
+        border-radius: 8px;
+    }
+
+    /* Table row hover polish */
+    .table-hover tbody tr:hover {
+        background-color: #f8f9fa;
+    }
+
+    /* Badge text clarity */
+    .badge {
+        font-size: 0.85rem;
+        padding: 6px 10px;
+    }
+
+    /* Dashboard spacing */
+    .container h2 {
+        font-weight: 600;
+    }
+    /* ===== Dashboard Card Styles ===== */
+    .card {
+        border-radius: 12px;
+        transition: all 0.3s ease;
+    }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+    /* ===== Summary Cards ===== */
+    .text-center i {
+        margin-bottom: 8px;
+    }
+
+    /* Card colors (optional if using Bootstrap classes) */
+    .text-primary {
+        color: #2C7BE5;
+    }
+
+    .text-success {
+        color: #34C38F;
+    }
+
+    .text-warning {
+        color: #F1B44C;
+    }
+
+    .text-danger {
+        color: #F46A6A;
+    }
+
+    /* ===== Buttons ===== */
+    .btn {
+        border-radius: 8px;
+        transition: all 0.2s ease;
+    }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+    /* ===== Alerts & Notifications ===== */
+    .list-group-item {
+        border: none;
+        padding: 12px 16px;
+        border-radius: 8px;
+        margin-bottom: 6px;
+        transition: all 0.2s ease;
+    }
+
+        .list-group-item:hover {
+            background-color: #f8f9fa;
+        }
+
+    /* ===== Headings ===== */
+    h4, h5, h6 {
+        font-weight: 600;
+    }
+
+    /* ===== Container Spacing ===== */
+    .container-fluid {
+        padding: 20px 30px;
+    }
+
+    /* ===== Optional: Scrollable Cards (Widgets) ===== */
+    .card ul {
+        list-style: none;
+        padding-left: 0;
+        margin: 0;
+    }
+
+        .card ul li {
+            padding: 4px 0;
+            font-size: 0.9rem;
+        }
+
+    /* ===== Responsive adjustments ===== */
+    @media (max-width: 768px) {
+        .card h3 {
+            font-size: 1.2rem;
+        }
+
+        .card h5 {
+            font-size: 1rem;
+        }
+    }
+
+
     }

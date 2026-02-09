@@ -4,7 +4,6 @@
     ViewData["Title"] = "Pharmacy Medicines";
     var sort = Context.Request.Query["sortOrder"].ToString();
 }
-
 <div class="container mt-4">
 
     <!-- Page Heading -->
@@ -25,25 +24,13 @@
                        placeholder="Search by name, company, category..." />
 
                 <!-- Sort -->
-                <select name="sortOrder"
-                        class="form-select"
-                        style="max-width: 220px;"
-                        onchange="this.form.submit()">
-
+                <select name="sortOrder" class="form-select w-auto" onchange="this.form.submit()">
                     <option value="">Name (A–Z)</option>
-                    <option value="name_desc"
-                            selected="@(Context.Request.Query["sortOrder"] == "name_desc")">
-                        Name (Z–A)
-                    </option>
-                    <option value="price_asc"
-                            selected="@(Context.Request.Query["sortOrder"] == "price_asc")">
-                        Price (Low → High)
-                    </option>
-                    <option value="price_desc"
-                            selected="@(Context.Request.Query["sortOrder"] == "price_desc")">
-                        Price (High → Low)
-                    </option>
+                    <option value="name_desc">Name (Z–A)</option>
+                    <option value="price_asc">Price (Low → High)</option>
+                    <option value="price_desc">Price (High → Low)</option>
                 </select>
+
 
                 <!-- Status Filter -->
                 <select name="status"
@@ -203,5 +190,6 @@
     </nav>
 
 </div>
+
 
 
