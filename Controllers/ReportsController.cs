@@ -32,4 +32,26 @@ public class ReportsController : Controller
 
         return View(model);
     }
+    public IActionResult LowStock()
+    {
+        var lowStockMedicines = _context.Medicines
+            .Where(m => m.Quantity <= 10) // Example threshold
+            .OrderBy(m => m.Quantity)
+            .ToList();
+
+        return View(lowStockMedicines);
+    }
+
+    public IActionResult Expired()
+    {
+        var today = DateTime.Today;
+
+        var expiredMedicines = _context.Medicines
+            .Where(m => m.ExpiryDate < today)
+            .OrderBy(m => m.ExpiryDate)
+            .ToList();
+
+        return View(expiredMedicines);
+    }
+
 }

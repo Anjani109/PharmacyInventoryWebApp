@@ -1,0 +1,27 @@
+﻿@model IEnumerable<PharmacyInventoryWebApp.Models.Medicine>
+
+<h2>Low Stock Medicines</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Company</th>
+            <th>Category</th>
+            <th>Quantity</th>
+            <th>Unit Price</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var med in Model)
+        {
+            <tr>
+                <td>@med.MedicineName</td>
+                <td>@med.CompanyName</td>
+                <td>@med.Category</td>
+                <td>@med.Quantity</td>
+                <td>@med.UnitPrice</td>
+            </tr>
+        }
+    </tbody>
+</table>

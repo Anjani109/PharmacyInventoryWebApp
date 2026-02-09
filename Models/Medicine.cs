@@ -29,7 +29,8 @@ namespace PharmacyInventoryWebApp.Models
 
         // Soft delete / active flag
         public bool IsActive { get; set; } = true;
-
+        public int Quantity { get; set; }        
+        public DateTime ExpiryDate { get; set; }
         // Automatically set when record is created
         [DataType(DataType.Date)]
         public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
