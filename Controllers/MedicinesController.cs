@@ -14,10 +14,20 @@ namespace PharmacyInventoryWebApp.Controllers
         }
 
         // GET: Medicines
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
-            var medicines = await _context.Medicines.ToListAsync();
-            return View(medicines);
+            var medicines = from m in _context.Medicines
+                            select m;
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                medicines = medicines.Where(m =>
+                    m.MedicineName.Contains(searchString) ||
+                    m.CompanyName.Contains(searchString) ||
+                    m.Category.Contains(searchString));
+            }
+
+            return View(await medicines.ToListAsync());
         }
 
         // GET: Medicines/Details/5
