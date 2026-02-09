@@ -35,7 +35,7 @@ namespace PharmacyInventoryWebApp.Controllers
                 "price_desc" => medicines.OrderByDescending(m => m.UnitPrice),
                 _ => medicines.OrderBy(m => m.MedicineName),
             };
-            int pageSize = 5;
+            int pageSize = 10;
 
             int totalMedicines = await medicines.CountAsync();
             int totalPages = (int)Math.Ceiling((double)totalMedicines / pageSize);
