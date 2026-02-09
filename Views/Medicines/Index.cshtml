@@ -129,25 +129,52 @@
                 </tr>
             }
         </tbody>
-        <nav>
-    <ul class="pagination justify-content-center">
+        
+
+    </table>
+<!-- Pagination -->
+<nav>
+    <ul class="pagination justify-content-center mt-3">
+
+        <!-- Previous -->
+        <li class="page-item @(ViewBag.CurrentPage == 1 ? "disabled" : "")">
+            <a class="page-link"
+               asp-action="Index"
+               asp-route-page="@(ViewBag.CurrentPage - 1)"
+               asp-route-searchString="@ViewBag.CurrentFilter"
+               asp-route-sortOrder="@ViewBag.SortOrder">
+                Previous
+            </a>
+        </li>
+
+        <!-- Page Numbers -->
         @for (int i = 1; i <= ViewBag.TotalPages; i++)
         {
             <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
                 <a class="page-link"
-                   href="@Url.Action("Index", new {
-                       page = i,
-                       searchString = ViewBag.CurrentFilter,
-                       sortOrder = ViewBag.CurrentSort
-                   })">
+                   asp-action="Index"
+                   asp-route-page="@i"
+                   asp-route-searchString="@ViewBag.CurrentFilter"
+                   asp-route-sortOrder="@ViewBag.SortOrder">
                     @i
                 </a>
             </li>
         }
+
+        <!-- Next -->
+        <li class="page-item @(ViewBag.CurrentPage == ViewBag.TotalPages ? "disabled" : "")">
+            <a class="page-link"
+               asp-action="Index"
+               asp-route-page="@(ViewBag.CurrentPage + 1)"
+               asp-route-searchString="@ViewBag.CurrentFilter"
+               asp-route-sortOrder="@ViewBag.SortOrder">
+                Next
+            </a>
+        </li>
+
     </ul>
 </nav>
 
-    </table>
 
 </div>
 
