@@ -5,12 +5,41 @@
 }
 
 <div class="container mt-4">
-    <h2 class="text-center mb-4">Pharmacy Medicines</h2>
 
-    <div class="mb-3 text-end">
-        <a asp-action="Create" class="btn btn-primary">+ Add New Medicine</a>
+    <!-- Page Heading -->
+    <h2 class="mb-3">Pharmacy Medicines</h2>
+
+    <!-- Search + Add Button Row -->
+    <div class="row mb-3 align-items-center">
+
+        <!-- Search Bar (LEFT) -->
+        <div class="col-md-6">
+            <form method="get" asp-action="Index" class="d-flex">
+                <input type="text"
+                       name="searchString"
+                       value="@Context.Request.Query["searchString"]"
+                       class="form-control me-2"
+                       placeholder="Search by name, company, category..." />
+
+                <button type="submit" class="btn btn-primary me-2">
+                    Search
+                </button>
+
+                <a asp-action="Index" class="btn btn-secondary">
+                    Clear
+                </a>
+            </form>
+        </div>
+
+        <!-- Add New Button (RIGHT) -->
+        <div class="col-md-6 text-end">
+            <a asp-action="Create" class="btn btn-primary">
+                + Add New Medicine
+            </a>
+        </div>
     </div>
 
+    <!-- Medicines Table -->
     <table class="table table-bordered table-hover align-middle">
         <thead class="table-dark text-center">
             <tr>
@@ -61,3 +90,6 @@
     </table>
 
 </div>
+
+
+
