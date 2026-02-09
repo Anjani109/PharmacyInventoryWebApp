@@ -47,6 +47,8 @@
                 <th>Company</th>
                 <th>Category</th>
                 <th>Price (₹)</th>
+                <th>Quantity</th>          <!-- NEW -->
+                <th>Expiry Date</th>       <!-- NEW -->
                 <th>Status</th>
                 <th style="width: 220px;">Actions</th>
             </tr>
@@ -61,6 +63,8 @@
                         <td>@item.CompanyName</td>
                         <td>@item.Category</td>
                         <td>@item.UnitPrice.ToString("0.00")</td>
+                        <td>@item.Quantity</td>                                   <!-- NEW -->
+                        <td>@item.ExpiryDate.ToShortDateString()</td>             <!-- NEW -->
                         <td class="text-center">
                             <span class="badge @(item.IsActive ? "bg-success" : "bg-secondary")">
                                 @(item.IsActive ? "Active" : "Inactive")
@@ -77,13 +81,14 @@
             else
             {
                 <tr>
-                    <td colspan="6" class="text-center text-muted">
+                    <td colspan="8" class="text-center text-muted">
                         No medicines available.
                     </td>
                 </tr>
             }
         </tbody>
     </table>
+
 </div>
 
 

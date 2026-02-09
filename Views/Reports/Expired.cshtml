@@ -1,27 +1,89 @@
 ﻿@model IEnumerable<PharmacyInventoryWebApp.Models.Medicine>
 
-<h2>Expired Medicines</h2>
+@{
+    ViewData["Title"] = "Expired Medicines Report";
+    var today = DateTime.Today;
+    var expiringSoon = Model.Where(m => m.ExpiryDate >= today && m.ExpiryDate <= today.AddDays(30))
+                             .OrderBy(m => m.ExpiryDate)
+                             .ToList();
 
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Company</th>
-            <th>Category</th>
-            <th>Expiry Date</th>
-            <th>Quantity</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var med in Model)
-        {
-            <tr>
-                <td>@med.MedicineName</td>
-                <td>@med.CompanyName</td>
-                <td>@med.Category</td>
-                <td>@med.ExpiryDate.ToShortDateString()</td>
-                <td>@med.Quantity</td>
-            </tr>
-        }
-    </tbody>
-</table>
+    var alreadyExpired = Model.Where(m => m.ExpiryDate < today)
+                              .OrderBy(m => m.ExpiryDate)
+                              .ToList();
+}
+
+<div class="container mt-4">
+
+    <h2 class="text-center mb-4">Expired Medicines Report</h2>
+
+    <!-- Expired Medicines -->
+    <h4>Already Expired Medicines (@alreadyExpired.Count)</h4>
+    @if (alreadyExpired.Any())
+    {
+        <table class="table table-bordered table-hover align-middle">
+            <thead class="table-dark text-center">
+                <tr>
+                    <th>Name</th>
+                    <th>Company</th>
+                    <th>Category</th>
+                    <th>Quantity</th>
+                    <th>Expiry Date</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var med in alreadyExpired)
+                {
+                    <tr class="table-danger">
+                        <td>@med.MedicineName</td>
+                        <td>@med.CompanyName</td>
+                        <td>@med.Category</td>
+                        <td>@med.Quantity</td>
+                        <td>@med.ExpiryDate.ToShortDateString()</td>
+                        <td>@(med.IsActive ? "Active" : "Inactive")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p class="text-muted">No expired medicines.</p>
+    }
+
+    <!-- Expiring Soon -->
+    <h4 class="mt-5">Expiring Soon (Next 30 Days) (@expiringSoon.Count)</h4>
+    @if (expiringSoon.Any())
+    {
+        <table class="table table-bordered table-hover align-middle">
+            <thead class="table-dark text-center">
+                <tr>
+                    <th>Name</th>
+                    <th>Company</th>
+                    <th>Category</th>
+                    <th>Quantity</th>
+                    <th>Expiry Date</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var med in expiringSoon)
+                {
+                    <tr class="table-warning">
+                        <td>@med.MedicineName</td>
+                        <td>@med.CompanyName</td>
+                        <td>@med.Category</td>
+                        <td>@med.Quantity</td>
+                        <td>@med.ExpiryDate.ToShortDateString()</td>
+                        <td>@(med.IsActive ? "Active" : "Inactive")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p class="text-muted">No medicines expiring soon.</p>
+    }
+
+</div>
