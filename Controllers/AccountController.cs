@@ -1,17 +1,17 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-<<<<<<< HEAD
+
 
 namespace PharmacyInventoryWebApp.Controllers
 {
-    [AllowAnonymous] // 🔓 THIS FIXES EVERYTHING
-=======
+    [AllowAnonymous] 
+
 using PharmacyInventoryWebApp.Models.Auth;
 
 namespace PharmacyInventoryWebApp.Controllers
 {
->>>>>>> eb2921a97ca0364baac7cef2a908277d4f189db3
+
     public class AccountController : Controller
     {
         private readonly SignInManager<IdentityUser> _signInManager;
@@ -25,7 +25,7 @@ namespace PharmacyInventoryWebApp.Controllers
             _userManager = userManager;
         }
 
-<<<<<<< HEAD
+
         public IActionResult Login()
         {
             return View();
@@ -67,10 +67,7 @@ namespace PharmacyInventoryWebApp.Controllers
         public IActionResult AccessDenied()
         {
             return View();
-=======
-        // =========================
-        // LOGIN (GET)
-        // =========================
+
         [AllowAnonymous]
         [HttpGet]
         public IActionResult Login(string? returnUrl = null)
@@ -79,9 +76,8 @@ namespace PharmacyInventoryWebApp.Controllers
             return View(new LoginViewModel());
         }
 
-        // =========================
-        // LOGIN (POST)
-        // =========================
+  
+   
         [AllowAnonymous]
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -114,19 +110,14 @@ namespace PharmacyInventoryWebApp.Controllers
             return View(model);
         }
 
-        // =========================
-        // REGISTER (GET)
-        // =========================
+
         [AllowAnonymous]
         [HttpGet]
         public IActionResult Register()
         {
             return View(new RegisterViewModel());
-        }
 
-        // =========================
-        // REGISTER (POST)
-        // =========================
+     
         [AllowAnonymous]
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -154,7 +145,7 @@ namespace PharmacyInventoryWebApp.Controllers
                 return View(model);
             }
 
-            // Assign Role
+    
             if (model.Role is "Admin" or "Manager" or "Pharmacist")
             {
                 await _userManager.AddToRoleAsync(user, model.Role);
@@ -167,10 +158,7 @@ namespace PharmacyInventoryWebApp.Controllers
             await _signInManager.SignInAsync(user, isPersistent: false);
             return RedirectToAction("Index", "Home");
         }
-
-        // =========================
-        // LOGOUT
-        // =========================
+     
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -178,7 +166,7 @@ namespace PharmacyInventoryWebApp.Controllers
         {
             await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
->>>>>>> eb2921a97ca0364baac7cef2a908277d4f189db3
+ 
         }
     }
 }

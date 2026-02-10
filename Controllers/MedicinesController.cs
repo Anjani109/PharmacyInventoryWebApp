@@ -6,12 +6,11 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace PharmacyInventoryWebApp.Controllers
 {
-<<<<<<< HEAD
+
     [Authorize(Roles = "Admin,Pharmacist")]
 
-=======
     [Authorize(Roles = "Admin,Manager,Pharmacist")]
->>>>>>> eb2921a97ca0364baac7cef2a908277d4f189db3
+
     public class MedicinesController : Controller
     {
         private readonly PharmacyContext _context;
@@ -22,7 +21,6 @@ namespace PharmacyInventoryWebApp.Controllers
             _context = context;
         }
 
-        // GET: Medicines
         public async Task<IActionResult> Index(string searchString, string sortOrder, int page = 1)
 
         {
@@ -63,7 +61,6 @@ namespace PharmacyInventoryWebApp.Controllers
         }
 
 
-        // GET: Medicines/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -78,14 +75,12 @@ namespace PharmacyInventoryWebApp.Controllers
             return View(medicine);
         }
 
-        // GET: Medicines/Create
         [Authorize(Roles = "Admin,Manager")]
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Medicines/Create
         [HttpPost]
         [Authorize(Roles = "Admin,Manager")]
         [ValidateAntiForgeryToken]
@@ -93,7 +88,7 @@ namespace PharmacyInventoryWebApp.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View(medicine);   // show validation errors
+                return View(medicine);   
             }
 
             medicine.CreatedDate = DateTime.Now;
@@ -105,7 +100,6 @@ namespace PharmacyInventoryWebApp.Controllers
         }
 
 
-        // GET: Medicines/Edit/5
         [Authorize(Roles = "Admin,Manager")]
         public async Task<IActionResult> Edit(int? id)
         {
@@ -119,7 +113,6 @@ namespace PharmacyInventoryWebApp.Controllers
             return View(medicine);
         }
 
-        // POST: Medicines/Edit/5
         [HttpPost]
         [Authorize(Roles = "Admin,Manager")]
         [ValidateAntiForgeryToken]
@@ -147,13 +140,9 @@ namespace PharmacyInventoryWebApp.Controllers
             return View(medicine);
         }
 
-        // GET: Medicines/Delete/5
-<<<<<<< HEAD
-        // GET: Medicines/Delete/5
-        [Authorize(Roles = "Admin")]
-=======
+
         [Authorize(Roles = "Admin,Manager")]
->>>>>>> eb2921a97ca0364baac7cef2a908277d4f189db3
+
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -168,8 +157,6 @@ namespace PharmacyInventoryWebApp.Controllers
             return View(medicine);
         }
 
-
-        // POST: Medicines/Delete/5
         [HttpPost, ActionName("Delete")]
         [Authorize(Roles = "Admin,Manager")]
         [ValidateAntiForgeryToken]

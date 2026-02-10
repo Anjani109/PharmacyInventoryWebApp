@@ -24,7 +24,7 @@ namespace PharmacyInventoryWebApp.Controllers
 
             var suppliers = _context.Suppliers.AsQueryable();
 
-            // 🔍 SEARCH
+          
             if (!string.IsNullOrEmpty(searchString))
             {
                 suppliers = suppliers.Where(s =>
@@ -33,8 +33,7 @@ namespace PharmacyInventoryWebApp.Controllers
                     s.Email.Contains(searchString));
             }
 
-            // 🔃 SORT
-            // 🔃 SORT (Active first + Name sort)
+           
             suppliers = sortOrder switch
             {
                 "name_desc" => suppliers
@@ -59,7 +58,7 @@ namespace PharmacyInventoryWebApp.Controllers
         }
 
 
-        // GET: Suppliers/Details/5
+       
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null) return NotFound();
@@ -72,13 +71,13 @@ namespace PharmacyInventoryWebApp.Controllers
             return View(supplier);
         }
 
-        // GET: Suppliers/Create
+       
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Suppliers/Create
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Supplier supplier)
@@ -92,7 +91,7 @@ namespace PharmacyInventoryWebApp.Controllers
             return View(supplier);
         }
 
-        // GET: Suppliers/Edit/5
+        
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null) return NotFound();
@@ -103,7 +102,7 @@ namespace PharmacyInventoryWebApp.Controllers
             return View(supplier);
         }
 
-        // POST: Suppliers/Edit/5
+       
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, Supplier supplier)
@@ -119,7 +118,7 @@ namespace PharmacyInventoryWebApp.Controllers
             return View(supplier);
         }
 
-        // GET: Suppliers/Delete/5
+        
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null) return NotFound();
@@ -132,7 +131,7 @@ namespace PharmacyInventoryWebApp.Controllers
             return View(supplier);
         }
 
-        // POST: Suppliers/Delete/5
+       
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
