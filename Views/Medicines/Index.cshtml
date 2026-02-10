@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "Pharmacy Medicines";
     var sort = Context.Request.Query["sortOrder"].ToString();
+    var canManageMedicine = User.IsInRole("Admin") || User.IsInRole("Manager");
 }
 <div class="container mt-4">
 
@@ -57,9 +58,12 @@
 
         <!-- ADD BUTTON (RIGHT) -->
         <div class="col-md-4 text-end">
-            <a asp-action="Create" class="btn btn-primary">
-                + Add New Medicine
-            </a>
+            @if (canManageMedicine)
+            {
+                <a asp-action="Create" class="btn btn-primary">
+                    + Add New Medicine
+                </a>
+            }
         </div>
 
     </div>
@@ -115,25 +119,34 @@
 
                         <!-- Action Buttons -->
                         <td class="text-center">
-                            <a asp-action="Edit" asp-route-id="@item.MedicineId"
-                               class="btn btn-sm btn-warning me-1">
-                                Edit
-                            </a>
-
                             <a asp-action="Details" asp-route-id="@item.MedicineId"
                                class="btn btn-sm btn-info text-white me-1">
                                 Details
                             </a>
 
+<<<<<<< HEAD
                             @if (User.IsInRole("Admin"))
                             {
                                 <a asp-action="Delete"
                                    asp-route-id="@item.MedicineId"
+=======
+                            @if (canManageMedicine)
+                            {
+                                <a asp-action="Edit" asp-route-id="@item.MedicineId"
+                                   class="btn btn-sm btn-warning me-1">
+                                    Edit
+                                </a>
+
+                                <a asp-action="Delete" asp-route-id="@item.MedicineId"
+>>>>>>> eb2921a97ca0364baac7cef2a908277d4f189db3
                                    class="btn btn-sm btn-danger">
                                     Delete
                                 </a>
                             }
+<<<<<<< HEAD
 
+=======
+>>>>>>> eb2921a97ca0364baac7cef2a908277d4f189db3
                         </td>
 
 

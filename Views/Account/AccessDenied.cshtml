@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿@{
     Layout = "_AuthLayout";
     ViewData["Title"] = "Access Denied";
@@ -12,4 +13,14 @@
        class="btn btn-primary">
         Go to Dashboard
     </a>
+=======
+@{
+    ViewData["Title"] = "Access Denied";
+}
+
+<div class="alert alert-danger mt-4">
+    <h4>Access denied</h4>
+    <p>You do not have permission to access this page.</p>
+    <a asp-controller="Home" asp-action="Index" class="btn btn-outline-danger">Back to dashboard</a>
+>>>>>>> eb2921a97ca0364baac7cef2a908277d4f189db3
 </div>

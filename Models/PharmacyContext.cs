@@ -1,10 +1,17 @@
+<<<<<<< HEAD
 ﻿using Microsoft.AspNetCore.Identity;
+=======
+>>>>>>> eb2921a97ca0364baac7cef2a908277d4f189db3
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace PharmacyInventoryWebApp.Models
 {
+<<<<<<< HEAD
     public class PharmacyContext : IdentityDbContext<IdentityUser> // ✅ change here
+=======
+    public class PharmacyContext : IdentityDbContext
+>>>>>>> eb2921a97ca0364baac7cef2a908277d4f189db3
     {
         public PharmacyContext(DbContextOptions<PharmacyContext> options)
             : base(options)

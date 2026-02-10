@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PharmacyInventoryWebApp.Models;
 
 namespace PharmacyInventoryWebApp.Controllers
 {
+    [Authorize(Roles = "Admin,Manager")]
     public class SuppliersController : Controller
     {
         private readonly PharmacyContext _context;
