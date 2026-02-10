@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PharmacyInventoryWebApp.Models;
 
+[Authorize(Roles = "Admin,Manager")]
 public class ReportsController : Controller
 {
     private readonly PharmacyContext _context;

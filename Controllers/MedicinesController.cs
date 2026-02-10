@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PharmacyInventoryWebApp.Models;
 
 namespace PharmacyInventoryWebApp.Controllers
 {
+    [Authorize(Roles = "Admin,Manager,Pharmacist")]
     public class MedicinesController : Controller
     {
         private readonly PharmacyContext _context;

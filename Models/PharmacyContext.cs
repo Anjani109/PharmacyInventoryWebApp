@@ -1,8 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace PharmacyInventoryWebApp.Models
 {
-    public class PharmacyContext : DbContext
+    public class PharmacyContext : IdentityDbContext
     {
         public PharmacyContext(DbContextOptions<PharmacyContext> options)
             : base(options)
