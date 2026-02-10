@@ -1,12 +1,16 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PharmacyInventoryWebApp.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace PharmacyInventoryWebApp.Controllers
 {
+    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Pharmacist")]
     public class MedicinesController : Controller
     {
         private readonly PharmacyContext _context;
+
 
         public MedicinesController(PharmacyContext context)
         {
@@ -135,6 +139,8 @@ namespace PharmacyInventoryWebApp.Controllers
         }
 
         // GET: Medicines/Delete/5
+        // GET: Medicines/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -149,9 +155,11 @@ namespace PharmacyInventoryWebApp.Controllers
             return View(medicine);
         }
 
+
         // POST: Medicines/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var medicine = await _context.Medicines.FindAsync(id);
@@ -163,6 +171,8 @@ namespace PharmacyInventoryWebApp.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+
+
 
         private bool MedicineExists(int id)
         {

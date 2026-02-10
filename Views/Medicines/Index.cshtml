@@ -125,11 +125,15 @@
                                 Details
                             </a>
 
-                            <a asp-action="Delete" asp-route-id="@item.MedicineId"
-                               class="btn btn-sm btn-danger">
-                                Delete
-                            </a>
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <a asp-action="Delete" asp-route-id="@item.MedicineId"
+                                   class="btn btn-sm btn-danger">
+                                    Delete
+                                </a>
+                            }
                         </td>
+
 
                     </tr>
                 }
