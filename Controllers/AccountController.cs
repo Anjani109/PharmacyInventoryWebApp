@@ -1,17 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-
-
-namespace PharmacyInventoryWebApp.Controllers
-{
-    [AllowAnonymous] 
-
 using PharmacyInventoryWebApp.Models.Auth;
 
 namespace PharmacyInventoryWebApp.Controllers
 {
-
+    [AllowAnonymous]
     public class AccountController : Controller
     {
         private readonly SignInManager<IdentityUser> _signInManager;
@@ -25,50 +19,7 @@ namespace PharmacyInventoryWebApp.Controllers
             _userManager = userManager;
         }
 
-
-        public IActionResult Login()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(string email, string password)
-        {
-            var user = await _userManager.FindByEmailAsync(email);
-            if (user == null)
-            {
-                ViewBag.Error = "Invalid Email or Password";
-                return View();
-            }
-
-            var result = await _signInManager.PasswordSignInAsync(
-                user.UserName!,
-                password,
-                false,
-                false
-            );
-
-            if (result.Succeeded)
-            {
-                return RedirectToAction("Index", "Dashboard");
-            }
-
-            ViewBag.Error = "Invalid Email or Password";
-            return View();
-        }
-
-        public async Task<IActionResult> Logout()
-        {
-            await _signInManager.SignOutAsync();
-            return RedirectToAction("Login");
-        }
-
-        public IActionResult AccessDenied()
-        {
-            return View();
-
-        [AllowAnonymous]
+        // ---------------- LOGIN (GET) ----------------
         [HttpGet]
         public IActionResult Login(string? returnUrl = null)
         {
@@ -76,9 +27,7 @@ namespace PharmacyInventoryWebApp.Controllers
             return View(new LoginViewModel());
         }
 
-  
-   
-        [AllowAnonymous]
+        // ---------------- LOGIN (POST) ----------------
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel model, string? returnUrl = null)
@@ -103,22 +52,21 @@ namespace PharmacyInventoryWebApp.Controllers
                     return LocalRedirect(returnUrl);
                 }
 
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Dashboard");
             }
 
             ModelState.AddModelError(string.Empty, "Invalid email or password.");
             return View(model);
         }
 
-
-        [AllowAnonymous]
+        // ---------------- REGISTER (GET) ----------------
         [HttpGet]
         public IActionResult Register()
         {
             return View(new RegisterViewModel());
+        }
 
-     
-        [AllowAnonymous]
+        // ---------------- REGISTER (POST) ----------------
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterViewModel model)
@@ -145,7 +93,6 @@ namespace PharmacyInventoryWebApp.Controllers
                 return View(model);
             }
 
-    
             if (model.Role is "Admin" or "Manager" or "Pharmacist")
             {
                 await _userManager.AddToRoleAsync(user, model.Role);
@@ -158,15 +105,21 @@ namespace PharmacyInventoryWebApp.Controllers
             await _signInManager.SignInAsync(user, isPersistent: false);
             return RedirectToAction("Index", "Home");
         }
-     
+
+        // ---------------- LOGOUT ----------------
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
-            return RedirectToAction("Index", "Home");
- 
+            return RedirectToAction("Login");
+        }
+
+        // ---------------- ACCESS DENIED ----------------
+        public IActionResult AccessDenied()
+        {
+            return View();
         }
     }
 }

@@ -4,13 +4,16 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using PharmacyInventoryWebApp.Data;
 using PharmacyInventoryWebApp.Models;
-using PharmacyInventoryWebApp.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
 
 builder.Services.AddDbContext<PharmacyContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlServer(
+        builder.Configuration.GetConnectionString("DefaultConnection")
+    )
+);
+
 
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
     .AddEntityFrameworkStores<PharmacyContext>()
@@ -18,27 +21,15 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>()
 
 builder.Services.AddControllersWithViews(options =>
 {
-    options.Filters.Add(new AuthorizeFilter());
+    options.Filters.Add(new AuthorizeFilter()); 
 });
 
 
 builder.Services.ConfigureApplicationCookie(options =>
 {
-    options.LoginPath = "/Account/Login";      
-    options.AccessDeniedPath = "/Account/AccessDenied"; 
+    options.LoginPath = "/Account/Login";
+    options.AccessDeniedPath = "/Account/AccessDenied";
 });
-
-
-var app = builder.Build();
-
-
-
-builder.Services.AddIdentity<IdentityUser, IdentityRole>()
-    .AddEntityFrameworkStores<PharmacyContext>()
-    .AddDefaultTokenProviders();
-
-
-builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
@@ -49,15 +40,8 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-app.UseRouting();
-
-app.UseAuthentication();
-app.UseAuthorization();
-
-
 
 app.UseRouting();
 
@@ -67,14 +51,9 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Account}/{action=Login}/{id?}"
+);
 
-
-using (var scope = app.Services.CreateScope())
-{
-    await SeedData.InitializeAsync(scope.ServiceProvider);
-    await DbInitializer.SeedRolesAndUsers(scope.ServiceProvider);
-}
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
@@ -82,4 +61,6 @@ using (var scope = app.Services.CreateScope())
     await UserSeeder.SeedUsersAsync(services);
 }
 
+
 app.Run();
+
