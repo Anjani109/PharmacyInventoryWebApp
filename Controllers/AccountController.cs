@@ -24,7 +24,7 @@ namespace PharmacyInventoryWebApp.Controllers
         public IActionResult Login(string? returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
-            return View(new LoginViewModel());
+            return View();
         }
 
         // ---------------- LOGIN (POST) ----------------
@@ -93,7 +93,7 @@ namespace PharmacyInventoryWebApp.Controllers
                 return View(model);
             }
 
-            if (model.Role is "Admin" or "Manager" or "Pharmacist")
+            if (model.Role is "Admin" or "Pharmacist")
             {
                 await _userManager.AddToRoleAsync(user, model.Role);
             }
@@ -103,7 +103,7 @@ namespace PharmacyInventoryWebApp.Controllers
             }
 
             await _signInManager.SignInAsync(user, isPersistent: false);
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Dashboard");
         }
 
         // ---------------- LOGOUT ----------------

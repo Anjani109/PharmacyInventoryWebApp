@@ -19,10 +19,7 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>()
     .AddEntityFrameworkStores<PharmacyContext>()
     .AddDefaultTokenProviders();
 
-builder.Services.AddControllersWithViews(options =>
-{
-    options.Filters.Add(new AuthorizeFilter()); 
-});
+builder.Services.AddControllersWithViews();
 
 
 builder.Services.ConfigureApplicationCookie(options =>
