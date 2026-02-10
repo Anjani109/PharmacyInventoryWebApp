@@ -1,33 +1,44 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace PharmacyInventoryWebApp.Controllers
 {
+    [AllowAnonymous] // 🔓 THIS FIXES EVERYTHING
     public class AccountController : Controller
     {
         private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public AccountController(SignInManager<IdentityUser> signInManager)
+        public AccountController(
+            SignInManager<IdentityUser> signInManager,
+            UserManager<IdentityUser> userManager)
         {
             _signInManager = signInManager;
+            _userManager = userManager;
         }
 
-        // GET: /Account/Login
         public IActionResult Login()
         {
             return View();
         }
 
-        // POST: /Account/Login
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(string email, string password)
         {
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user == null)
+            {
+                ViewBag.Error = "Invalid Email or Password";
+                return View();
+            }
+
             var result = await _signInManager.PasswordSignInAsync(
-                email,
+                user.UserName!,
                 password,
-                isPersistent: false,
-                lockoutOnFailure: false
+                false,
+                false
             );
 
             if (result.Succeeded)
@@ -39,14 +50,12 @@ namespace PharmacyInventoryWebApp.Controllers
             return View();
         }
 
-        // GET: /Account/Logout
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
             return RedirectToAction("Login");
         }
 
-        // GET: /Account/AccessDenied
         public IActionResult AccessDenied()
         {
             return View();

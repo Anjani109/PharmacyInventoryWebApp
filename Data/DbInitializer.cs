@@ -2,7 +2,6 @@
 
 namespace PharmacyInventoryWebApp.Data
 {
-
     public static class DbInitializer
     {
         public static async Task SeedRolesAndUsers(IServiceProvider serviceProvider)
@@ -10,7 +9,7 @@ namespace PharmacyInventoryWebApp.Data
             var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
             var userManager = serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
 
-            // Roles
+            // 1️⃣ Create Roles
             string[] roles = { "Admin", "Pharmacist" };
 
             foreach (var role in roles)
@@ -21,32 +20,47 @@ namespace PharmacyInventoryWebApp.Data
                 }
             }
 
-            // Admin user
-            if (await userManager.FindByEmailAsync("admin@pharmacy.com") == null)
+            // 2️⃣ Admin user
+            var adminEmail = "admin@pharmacy.com";
+            var adminUser = await userManager.FindByEmailAsync(adminEmail);
+
+            if (adminUser == null)
             {
-                var admin = new IdentityUser
+                adminUser = new IdentityUser
                 {
-                    UserName = "admin@pharmacy.com",
-                    Email = "admin@pharmacy.com",
+                    UserName = adminEmail,
+                    Email = adminEmail,
                     EmailConfirmed = true
                 };
 
-                await userManager.CreateAsync(admin, "Admin@123");
-                await userManager.AddToRoleAsync(admin, "Admin");
+                await userManager.CreateAsync(adminUser, "Admin@123");
             }
 
-            // Pharmacist user
-            if (await userManager.FindByEmailAsync("pharmacist@pharmacy.com") == null)
+            // 🔥 THIS LINE FIXES ACCESS DENIED
+            if (!await userManager.IsInRoleAsync(adminUser, "Admin"))
             {
-                var pharmacist = new IdentityUser
+                await userManager.AddToRoleAsync(adminUser, "Admin");
+            }
+
+            // 3️⃣ Pharmacist user
+            var pharmacistEmail = "pharmacist@pharmacy.com";
+            var pharmacistUser = await userManager.FindByEmailAsync(pharmacistEmail);
+
+            if (pharmacistUser == null)
+            {
+                pharmacistUser = new IdentityUser
                 {
-                    UserName = "pharmacist@pharmacy.com",
-                    Email = "pharmacist@pharmacy.com",
+                    UserName = pharmacistEmail,
+                    Email = pharmacistEmail,
                     EmailConfirmed = true
                 };
 
-                await userManager.CreateAsync(pharmacist, "Pharma@123");
-                await userManager.AddToRoleAsync(pharmacist, "Pharmacist");
+                await userManager.CreateAsync(pharmacistUser, "Pharma@123");
+            }
+
+            if (!await userManager.IsInRoleAsync(pharmacistUser, "Pharmacist"))
+            {
+                await userManager.AddToRoleAsync(pharmacistUser, "Pharmacist");
             }
         }
     }

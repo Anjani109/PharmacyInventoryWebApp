@@ -18,23 +18,37 @@
 <body>
 
     <!-- TOP NAVBAR -->
-    <nav class="navbar navbar-dark bg-dark sticky-top">
-        <div class="container-fluid">
-            <button class="btn btn-dark d-md-none"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#sidebarMenu">
-                ☰
-            </button>
+    <ul class="navbar-nav ms-auto">
 
-            <span class="navbar-brand ms-2">
-                Pharmacy Inventory System
-            </span>
-        </div>
-    </nav>
+        @if (User.Identity?.IsAuthenticated ?? false)
+        {
+            <li class="nav-item">
+                <span class="nav-link text-light">
+                    Hello, @User.Identity.Name
+                </span>
+            </li>
 
-    <div class="container-fluid">
-        <div class="row">
+            <li class="nav-item">
+                <a class="nav-link text-light"
+                   asp-controller="Account"
+                   asp-action="Logout">
+                    Logout
+                </a>
+            </li>
+        }
+        else
+        {
+            <li class="nav-item">
+                <a class="nav-link text-light"
+                   asp-controller="Account"
+                   asp-action="Login">
+                    Login
+                </a>
+            </li>
+        }
+
+    </ul>
+
 
             <!-- SIDEBAR -->
             <nav id="sidebarMenu"
@@ -63,14 +77,16 @@
                                 📊 Reports
                             </a>
                         </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link"
-                               asp-controller="Suppliers"
-                               asp-action="Index">
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link @(currentController == "Suppliers" ? "active" : "")"
+                                asp-controller="Suppliers"
+                                asp-action="Index">
                                 🚚 Suppliers
                             </a>
-                        </li>
+                            </li>
+                        }
 
                         <li class="nav-item">
                             <a class="nav-link">
@@ -87,8 +103,6 @@
                 @RenderBody()
             </main>
 
-        </div>
-    </div>
 
     <!-- Scripts -->
     <a href="~/lib/jquery/dist/jquery.min.map">~/lib/jquery/dist/jquery.min.map</a>

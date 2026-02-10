@@ -1,8 +1,9 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using PharmacyInventoryWebApp.Data;
 using PharmacyInventoryWebApp.Models;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,6 +16,11 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>()
     .AddEntityFrameworkStores<PharmacyContext>()
     .AddDefaultTokenProviders();
 
+builder.Services.AddControllersWithViews(options =>
+{
+    options.Filters.Add(new AuthorizeFilter());
+});
+
 // Configure login & access denied paths
 builder.Services.ConfigureApplicationCookie(options =>
 {
@@ -23,10 +29,9 @@ builder.Services.ConfigureApplicationCookie(options =>
 });
 
 
-// Add services to the container.
-builder.Services.AddControllersWithViews();
-
 var app = builder.Build();
+
+
 
 
 // Configure the HTTP request pipeline.

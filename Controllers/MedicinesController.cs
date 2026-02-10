@@ -5,8 +5,8 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace PharmacyInventoryWebApp.Controllers
 {
-    [Authorize(Roles = "Admin")]
-    [Authorize(Roles = "Pharmacist")]
+    [Authorize(Roles = "Admin,Pharmacist")]
+
     public class MedicinesController : Controller
     {
         private readonly PharmacyContext _context;

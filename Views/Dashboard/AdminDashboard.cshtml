@@ -1,0 +1,13 @@
+﻿@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<h2>Admin Dashboard</h2>
+
+<p>Welcome, @(User?.Identity?.Name ?? "User")</p>
+
+<ul>
+    <li><a asp-controller="Medicines" asp-action="Index">Medicines</a></li>
+    <li><a asp-controller="Suppliers" asp-action="Index">Suppliers</a></li>
+    <li><a asp-controller="Reports" asp-action="Index">Reports</a></li>
+</ul>
