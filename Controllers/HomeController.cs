@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PharmacyInventoryWebApp.Models;
@@ -5,6 +6,7 @@ using System.Diagnostics;
 
 namespace PharmacyInventoryWebApp.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly PharmacyContext _context;

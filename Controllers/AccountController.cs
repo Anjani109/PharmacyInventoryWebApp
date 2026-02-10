@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
 
 namespace PharmacyInventoryWebApp.Controllers
 {
@@ -16,27 +16,62 @@ namespace PharmacyInventoryWebApp.Controllers
             _signInManager = signInManager;
             _userManager = userManager;
         }
+
         [AllowAnonymous]
-        public IActionResult Login() => View();
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> Login(string email, string password)
         {
+            ViewData["ReturnUrl"] = returnUrl;
+
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
             var result = await _signInManager.PasswordSignInAsync(
-                email, password, false, false);
 
             if (result.Succeeded)
-                return RedirectToAction("Index", "Home");
+            {
+                if (!string.IsNullOrWhiteSpace(returnUrl) && Url.IsLocalUrl(returnUrl))
+                {
+                    return LocalRedirect(returnUrl);
+                }
 
-            ViewBag.Error = "Invalid login attempt";
-            return View();
+                return RedirectToAction("Index", "Home");
+            }
+
+            ModelState.AddModelError(string.Empty, "Invalid email or password.");
+            return View(model);
         }
 
+        [AllowAnonymous]
+        public IActionResult Register()
+        {
+            return View(new RegisterViewModel());
+        }
+
+            }
+
+            if (model.Role is "Admin" or "Manager" or "Pharmacist")
+            {
+                await _userManager.AddToRoleAsync(user, model.Role);
+            }
+            else
+            {
+                await _userManager.AddToRoleAsync(user, "Pharmacist");
+            }
+
+            await _signInManager.SignInAsync(user, isPersistent: false);
+            return RedirectToAction("Index", "Home");
+        }
+
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
-            return RedirectToAction("Login");
         }
     }
 }

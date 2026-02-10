@@ -8,7 +8,7 @@ namespace PharmacyInventoryWebApp.Data
         {
             var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
 
-            string[] roles = { "Admin", "Manager", "Pharmacist" };
+            string[] roles = ["Admin", "Manager", "Pharmacist"];
 
             foreach (var role in roles)
             {

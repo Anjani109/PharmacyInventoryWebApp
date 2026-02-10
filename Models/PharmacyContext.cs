@@ -1,4 +1,3 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace PharmacyInventoryWebApp.Models
@@ -32,7 +31,7 @@ namespace PharmacyInventoryWebApp.Models
                       .IsRequired();
 
                 entity.Property(e => e.UnitPrice)
-                      .HasPrecision(10, 2);   // ✅ fixes warning
+                      .HasPrecision(10, 2);
             });
         }
     }

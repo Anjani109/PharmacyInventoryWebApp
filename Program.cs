@@ -15,14 +15,26 @@ builder.Services.AddDbContext<PharmacyContext>(options =>
 // =======================
 // Identity
 // =======================
-builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
+builder.Services
+    .AddIdentity<IdentityUser, IdentityRole>(options =>
+    {
+        options.Password.RequireDigit = true;
+        options.Password.RequireUppercase = true;
+        options.Password.RequireLowercase = true;
+        options.Password.RequiredLength = 6;
+        options.User.RequireUniqueEmail = true;
+    })
+    .AddEntityFrameworkStores<PharmacyContext>()
+    .AddDefaultTokenProviders();
+
+// =======================
+// Cookies
+// =======================
+builder.Services.ConfigureApplicationCookie(options =>
 {
-    options.Password.RequireDigit = true;
-    options.Password.RequireUppercase = true;
-    options.Password.RequiredLength = 6;
-})
-.AddEntityFrameworkStores<PharmacyContext>()
-.AddDefaultTokenProviders();
+    options.LoginPath = "/Account/Login";
+    options.AccessDeniedPath = "/Account/AccessDenied";
+});
 
 // =======================
 // Authorization
@@ -49,13 +61,11 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
-// ? Static files must be here
 app.UseStaticFiles();
 
 app.UseRouting();
 
-// ? Auth ALWAYS after routing
+// ?? AUTH MUST BE HERE
 app.UseAuthentication();
 app.UseAuthorization();
 
@@ -67,15 +77,13 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 // =======================
-// Seed Roles
+// Seed Roles & Users
 // =======================
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
-
     await RoleSeeder.SeedRolesAsync(services);
-    await UserSeeder.SeedAdminAsync(services);
+    await UserSeeder.SeedUsersAsync(services);
 }
-
 
 app.Run();
