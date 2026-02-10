@@ -1,113 +1,72 @@
-﻿@model IEnumerable<PharmacyInventoryWebApp.Models.Medicine>
+@model IEnumerable<PharmacyInventoryWebApp.Models.Medicine>
 
 @{
     ViewData["Title"] = "Dashboard";
+    var role = User.IsInRole("Admin") ? "Admin" : User.IsInRole("Manager") ? "Manager" : "Pharmacist";
 }
 
-<div class="d-flex justify-content-between align-items-center p-3 bg-white shadow-sm rounded mb-3">
-                <div>
-                    <h4>Good Morning, Dr. Sharma!</h4>
-                    <small>Tuesday, 10 February 2026</small>
-                </div>
-                <div>
-                    <img src="profile.jpg" alt="Profile" class="rounded-circle" width="40">
-                    <button class="btn btn-outline-secondary btn-sm ms-2">Logout</button>
-                </div>
-            </div>
-<div class="row mb-4">
-    <!-- Medicines in Stock -->
-    <div class="col-md-3">
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h3 class="mb-1">Welcome, @User.Identity?.Name</h3>
+        <p class="text-muted mb-0">Role: @role</p>
+    </div>
+</div>
+
+<div class="row g-3 mb-4">
+    <div class="col-md-4">
         <div class="card shadow-sm p-3 text-center">
-            <i class="fas fa-pills fa-2x text-primary"></i>
-            <h5 class="mt-2">Medicines in Stock</h5>
-            <h3>1200</h3>
-            <small>Total medicines currently available</small>
+            <h6>Total Medicines</h6>
+            <h3 class="text-primary">@ViewBag.TotalMedicines</h3>
         </div>
     </div>
-
-    <!-- Expiring Soon -->
-    <div class="col-md-3">
+    <div class="col-md-4">
         <div class="card shadow-sm p-3 text-center">
-            <i class="fas fa-exclamation-triangle fa-2x text-warning"></i>
-            <h5 class="mt-2">Expiring Soon</h5>
-            <h3>12</h3>
-            <small>Medicines expiring in next 30 days</small>
+            <h6>Low Stock</h6>
+            <h3 class="text-warning">@ViewBag.LowStockCount</h3>
         </div>
     </div>
-
-    <!-- Pending Orders -->
-    <div class="col-md-3">
+    <div class="col-md-4">
         <div class="card shadow-sm p-3 text-center">
-            <i class="fas fa-clipboard-list fa-2x text-orange"></i>
-            <h5 class="mt-2">Pending Orders</h5>
-            <h3>5</h3>
-            <small>Orders yet to be fulfilled</small>
-        </div>
-    </div>
-
-    <!-- Sales Today -->
-    <div class="col-md-3">
-        <div class="card shadow-sm p-3 text-center">
-            <i class="fas fa-money-bill-wave fa-2x text-success"></i>
-            <h5 class="mt-2">Sales Today</h5>
-            <h3>₹15,000</h3>
-            <small>Total sales recorded today</small>
+            <h6>Active Suppliers</h6>
+            <h3 class="text-success">@ViewBag.ActiveSuppliers</h3>
         </div>
     </div>
 </div>
 
-<!-- Alerts / Notifications -->
-<div class="card mb-4 shadow-sm p-3">
-    <h5>Alerts & Notifications</h5>
-    <ul class="list-group list-group-flush">
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-            3 Medicines expiring in next 7 days
-            <span class="badge bg-warning rounded-pill">Warning</span>
-        </li>
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-            2 Pending Supplier Deliveries
-            <span class="badge bg-danger rounded-pill">Urgent</span>
-        </li>
-    </ul>
-</div>
-
-<!-- Mini Widgets -->
-<div class="row">
-    <div class="col-md-4">
-        <div class="card shadow-sm p-3">
-            <h6>Top 5 Selling Medicines Today</h6>
-            <ul>
-                <li>Paracetamol - 120 sold</li>
-                <li>Ibuprofen - 85 sold</li>
-                <li>Vitamin C - 70 sold</li>
-                <li>Amoxicillin - 60 sold</li>
-                <li>Cough Syrup - 50 sold</li>
-            </ul>
-        </div>
+<div class="card shadow-sm">
+    <div class="card-header bg-light">
+        <h5 class="mb-0">Low Stock Medicines</h5>
     </div>
-    <div class="col-md-4">
-        <div class="card shadow-sm p-3">
-            <h6>Recent Orders Fulfilled</h6>
-            <ul>
-                <li>Order #1023 - Completed</li>
-                <li>Order #1022 - Completed</li>
-                <li>Order #1021 - Completed</li>
-                <li>Order #1020 - Completed</li>
-                <li>Order #1019 - Completed</li>
-            </ul>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="card shadow-sm p-3">
-            <h6>Upcoming Stock Orders</h6>
-            <ul>
-                <li>Supplier A - 15 Feb</li>
-                <li>Supplier B - 18 Feb</li>
-                <li>Supplier C - 20 Feb</li>
-                <li>Supplier D - 22 Feb</li>
-            </ul>
-        </div>
+    <div class="card-body p-0">
+        <table class="table table-striped mb-0">
+            <thead>
+                <tr>
+                    <th>Medicine</th>
+                    <th>Company</th>
+                    <th>Category</th>
+                    <th>Quantity</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Any())
+                {
+                    foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.MedicineName</td>
+                            <td>@item.CompanyName</td>
+                            <td>@item.Category</td>
+                            <td><span class="badge bg-danger">@item.Quantity</span></td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="4" class="text-center text-muted py-3">No low stock medicines.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
     </div>
 </div>
-
-            
