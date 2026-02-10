@@ -1,8 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace PharmacyInventoryWebApp.Models
 {
-    public class PharmacyContext : DbContext
+    public class PharmacyContext : IdentityDbContext
     {
         public PharmacyContext(DbContextOptions<PharmacyContext> options)
             : base(options)
@@ -31,7 +32,7 @@ namespace PharmacyInventoryWebApp.Models
                       .IsRequired();
 
                 entity.Property(e => e.UnitPrice)
-                      .HasPrecision(10, 2);   // ✅ fixes warning
+                      .HasPrecision(10, 2);
             });
         }
     }

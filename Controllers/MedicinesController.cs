@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PharmacyInventoryWebApp.Models;
 
 namespace PharmacyInventoryWebApp.Controllers
 {
+    [Authorize(Roles = "Admin,Manager,Pharmacist")]
     public class MedicinesController : Controller
     {
         private readonly PharmacyContext _context;
@@ -70,6 +72,7 @@ namespace PharmacyInventoryWebApp.Controllers
         }
 
         // GET: Medicines/Create
+        [Authorize(Roles = "Admin,Manager")]
         public IActionResult Create()
         {
             return View();
@@ -77,6 +80,7 @@ namespace PharmacyInventoryWebApp.Controllers
 
         // POST: Medicines/Create
         [HttpPost]
+        [Authorize(Roles = "Admin,Manager")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Medicine medicine)
         {
@@ -95,6 +99,7 @@ namespace PharmacyInventoryWebApp.Controllers
 
 
         // GET: Medicines/Edit/5
+        [Authorize(Roles = "Admin,Manager")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -109,6 +114,7 @@ namespace PharmacyInventoryWebApp.Controllers
 
         // POST: Medicines/Edit/5
         [HttpPost]
+        [Authorize(Roles = "Admin,Manager")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, Medicine medicine)
         {
@@ -135,6 +141,7 @@ namespace PharmacyInventoryWebApp.Controllers
         }
 
         // GET: Medicines/Delete/5
+        [Authorize(Roles = "Admin,Manager")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -151,6 +158,7 @@ namespace PharmacyInventoryWebApp.Controllers
 
         // POST: Medicines/Delete/5
         [HttpPost, ActionName("Delete")]
+        [Authorize(Roles = "Admin,Manager")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
