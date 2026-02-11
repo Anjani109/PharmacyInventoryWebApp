@@ -24,7 +24,8 @@ namespace PharmacyInventoryWebApp.Controllers
         public IActionResult Login(string? returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
-            return View();
+            return View("~/Views/Account/Login.cshtml");
+
         }
 
         // ---------------- LOGIN (POST) ----------------

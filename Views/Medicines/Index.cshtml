@@ -119,35 +119,34 @@
 
                         <!-- Action Buttons -->
                         <td class="text-center">
-                            <a asp-action="Details" asp-route-id="@item.MedicineId"
+
+                            <!-- Details button (everyone can see) -->
+                            <a asp-action="Details"
+                               asp-route-id="@item.MedicineId"
                                class="btn btn-sm btn-info text-white me-1">
                                 Details
                             </a>
 
-<<<<<<< HEAD
+                            @if (canManageMedicine)
+                            {
+                                <a asp-action="Edit"
+                                   asp-route-id="@item.MedicineId"
+                                   class="btn btn-sm btn-warning me-1">
+                                    Edit
+                                </a>
+                            }
+
                             @if (User.IsInRole("Admin"))
                             {
                                 <a asp-action="Delete"
                                    asp-route-id="@item.MedicineId"
-=======
-                            @if (canManageMedicine)
-                            {
-                                <a asp-action="Edit" asp-route-id="@item.MedicineId"
-                                   class="btn btn-sm btn-warning me-1">
-                                    Edit
-                                </a>
-
-                                <a asp-action="Delete" asp-route-id="@item.MedicineId"
->>>>>>> eb2921a97ca0364baac7cef2a908277d4f189db3
                                    class="btn btn-sm btn-danger">
                                     Delete
                                 </a>
                             }
-<<<<<<< HEAD
 
-=======
->>>>>>> eb2921a97ca0364baac7cef2a908277d4f189db3
                         </td>
+
 
 
                     </tr>
@@ -201,7 +200,7 @@
                    asp-route-page="@(ViewBag.CurrentPage + 1)"
                    asp-route-searchString="@ViewBag.CurrentFilter"
                    asp-route-sortOrder="@ViewBag.SortOrder">
-                    Next
+                   Next
                 </a>
             </li>
 
