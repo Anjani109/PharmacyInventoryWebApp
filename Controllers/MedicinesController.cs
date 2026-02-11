@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PharmacyInventoryWebApp.Models;
-using Microsoft.AspNetCore.Authorization;
 
 namespace PharmacyInventoryWebApp.Controllers
 {

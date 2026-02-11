@@ -12,15 +12,9 @@
 
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+
 </head>
 <body>
-
-    @{
-        var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
-        var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
-        var isAuthPage = currentController == "Account";
-    }
-
     <nav class="navbar navbar-dark bg-dark sticky-top shadow-sm">
         <div class="container-fluid">
             <span class="navbar-brand">Pharmacy Inventory System</span>

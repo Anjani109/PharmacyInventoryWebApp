@@ -2,12 +2,50 @@
     ViewData["Title"] = "Admin Dashboard";
 }
 
-<h2>Admin Dashboard</h2>
+<div class="container mt-4">
+    <h2 class="mb-3">Admin Dashboard</h2>
 
-<p>Welcome, @(User?.Identity?.Name ?? "User")</p>
+    <p class="text-muted">
+        Welcome, <strong>@(User?.Identity?.Name ?? "User")</strong>
+    </p>
 
-<ul>
-    <li><a asp-controller="Medicines" asp-action="Index">Medicines</a></li>
-    <li><a asp-controller="Suppliers" asp-action="Index">Suppliers</a></li>
-    <li><a asp-controller="Reports" asp-action="Index">Reports</a></li>
-</ul>
+    <div class="row mt-4">
+
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Medicines</h5>
+                    <p class="card-text">Manage medicine inventory</p>
+                    <a asp-controller="Medicines" asp-action="Index" class="btn btn-primary">
+                        Go to Medicines
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Suppliers</h5>
+                    <p class="card-text">Manage supplier records</p>
+                    <a asp-controller="Suppliers" asp-action="Index" class="btn btn-success">
+                        Go to Suppliers
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Reports</h5>
+                    <p class="card-text">View reports and analytics</p>
+                    <a asp-controller="Reports" asp-action="Index" class="btn btn-warning">
+                        View Reports
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

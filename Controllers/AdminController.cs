@@ -11,6 +11,7 @@ namespace PharmacyInventoryWebApp.Controllers
 
         public AdminController(UserManager<IdentityUser> userManager)
         {
+            _userManager = userManager;
         }
     }
 }
