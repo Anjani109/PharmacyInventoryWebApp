@@ -5,7 +5,6 @@ using PharmacyInventoryWebApp.Models.Auth;
 
 namespace PharmacyInventoryWebApp.Controllers
 {
-    [AllowAnonymous]
     public class AccountController : Controller
     {
         private readonly SignInManager<IdentityUser> _signInManager;
@@ -20,6 +19,7 @@ namespace PharmacyInventoryWebApp.Controllers
         }
 
         // ---------------- LOGIN (GET) ----------------
+        [AllowAnonymous]
         [HttpGet]
         public IActionResult Login(string? returnUrl = null)
         {
