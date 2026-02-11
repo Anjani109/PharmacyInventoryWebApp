@@ -12,8 +12,8 @@ using PharmacyInventoryWebApp.Models;
 namespace PharmacyInventoryWebApp.Migrations
 {
     [DbContext(typeof(PharmacyContext))]
-    [Migration("20260210072934_IdentitySetup")]
-    partial class IdentitySetup
+    [Migration("20260211185603_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

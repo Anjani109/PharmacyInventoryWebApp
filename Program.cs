@@ -56,6 +56,7 @@ using (var scope = app.Services.CreateScope())
     var services = scope.ServiceProvider;
     await RoleSeeder.SeedRolesAsync(services);
     await UserSeeder.SeedUsersAsync(services);
+    await DbInitializer.SeedRolesAndUsers(services);
 }
 
 
