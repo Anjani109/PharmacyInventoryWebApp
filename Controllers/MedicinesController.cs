@@ -6,8 +6,6 @@ using PharmacyInventoryWebApp.Models;
 namespace PharmacyInventoryWebApp.Controllers
 {
 
-    [Authorize(Roles = "Admin,Pharmacist")]
-
     [Authorize(Roles = "Admin,Manager,Pharmacist")]
 
     public class MedicinesController : Controller

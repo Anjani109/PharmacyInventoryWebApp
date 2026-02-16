@@ -33,6 +33,6 @@ namespace PharmacyInventoryWebApp.Models
         public DateTime ExpiryDate { get; set; }
         // Automatically set when record is created
         [DataType(DataType.Date)]
-        public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
+        public DateTime CreatedDate { get; set; } = DateTime.Now;
     }
 }
